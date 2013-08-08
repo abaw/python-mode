@@ -16014,11 +16014,7 @@ Returns the completed symbol, a string, if successful, nil otherwise. "
                                      (process-mark (get-buffer-process (current-buffer))))))))
 
          (ccs (or completion-command-string
-                  (if imports
-                      (concat imports (py-set-ipython-completion-command-string
-                                       (process-name python-process)))
-                    (py-set-ipython-completion-command-string
-                     (process-name python-process)))))
+		  (concat (or imports "") (py-set-ipython-completion-command-string))))
          completion completions completion-table ugly-return)
     (if (string= pattern "")
         (tab-to-tab-stop)
@@ -16089,7 +16085,7 @@ Bug: if no IPython-shell is running, fails first time due to header returned, wh
     (if (string= pattern "")
         (tab-to-tab-stop)
       (process-send-string py-process
-                           (format (py-set-ipython-completion-command-string (downcase (process-name py-process))) pattern))
+                           (format (py-set-ipython-completion-command-string) pattern))
       (accept-process-output py-process)
       (setq completions
             (split-string (substring ugly-return 0 (position ?\n ugly-return)) sep))
