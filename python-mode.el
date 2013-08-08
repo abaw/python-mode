@@ -16047,7 +16047,7 @@ Returns the completed symbol, a string, if successful, nil otherwise. "
                          (display-completion-list
                           (all-completions pattern completions)))
                        (recenter))
-                      ((not (string= pattern (car completions)))
+                      ((and (string-prefix-p pattern (car completions)) (not (string= pattern (car completions))))
                        (progn (delete-char (- (length pattern)))
                               (insert (car completions))
                               nil)))
